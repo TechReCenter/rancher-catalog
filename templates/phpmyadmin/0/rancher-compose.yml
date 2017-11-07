@@ -4,11 +4,24 @@
   description: "phpMyAdmin is a free software tool written in PHP, intended to handle the administration of MySQL over the Web."
   uuid: phpmyadmin-0
   questions:
+    - variable: "mysql_source"
+      description: "Link to mysql service or mysql server"
+      label: "MySQL source"
+      type: "service"
+      required: true
+      default: "mysql/mysql-lb"
+    - variable: "public_port"
+      label: "Public Port"
+      description: "Unique public port for phpMyAdmin"
+      type: "int"
+      default: 80
+      required: true
     - variable: mysql_host
       description: "Optional, allows you to specify the mysql server to be created on image startup."
       label: "MySQL Server"
       required: false
       type: "string"
+      default: "mysql"
     - variable: mysql_arbitrary
       description: "Set to 'yes' to allow use arbitrary servers."
       label: MySQL arbitrary servers

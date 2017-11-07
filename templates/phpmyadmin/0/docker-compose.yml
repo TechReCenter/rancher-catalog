@@ -1,4 +1,8 @@
 phpmyadmin:
+  ports:
+  - "${public_port}:80"
+  external_links:
+    - ${mysql_source}:mysql
   image: 'phpmyadmin/phpmyadmin:latest'
   restart: on-failure
   environment:
@@ -10,4 +14,3 @@ phpmyadmin:
 {{- end}}
     tty: true
     stdin_open: true
-
