@@ -2,11 +2,12 @@ phpmyadmin:
   image: 'phpmyadmin/phpmyadmin:latest'
   restart: on-failure
   environment:
-    tty: true
-    stdin_open: true
 {{- if (.Values.mysql_host)}}
-      PMA_HOST: ${mysql_host}
+    PMA_HOST: ${mysql_host}
 {{- end}}
 {{- if eq .Values.mysql_arbitrary "yes"}}
-      PMA_ARBITRARY: 1
+    PMA_ARBITRARY: 1
 {{- end}}
+    tty: true
+    stdin_open: true
+
