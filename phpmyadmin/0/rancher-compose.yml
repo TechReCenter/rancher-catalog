@@ -1,0 +1,30 @@
+.catalog:
+  name: "phpMyAdmin"
+  version: "v1"
+  description: "phpMyAdmin is a free software tool written in PHP, intended to handle the administration of MySQL over the Web."
+  uuid: phpmyadmin-0
+  questions:
+    - variable: mysql_host
+      description: "Optional, allows you to specify the mysql server to be created on image startup."
+      label: "MySQL Server"
+      required: false
+      type: "string"
+    - variable: mysql_arbitrary
+      description: "Set to 'yes' to allow use arbitrary servers."
+      label: MySQL arbitrary servers
+      type: "enum"
+      options:
+        - "yes"
+        - "no"
+      default: "no"
+      required: false
+phpmyadmin:
+  scale: 1
+  start_on_create: true
+  health_check:
+    port: 80
+    interval: 3000
+    unhealthy_threshold: 2
+    healthy_threshold: 2
+    response_timeout: 2000
+    request_line: 'GET "/" "HTTP/1.0"'
