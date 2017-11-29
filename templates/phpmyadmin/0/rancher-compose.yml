@@ -8,7 +8,7 @@
       description: "Link to mysql service or mysql server"
       label: "MySQL source"
       type: "service"
-      required: true
+      required: false
       default: "mysql/mysql-lb"
     - variable: "public_port"
       label: "Public Port"

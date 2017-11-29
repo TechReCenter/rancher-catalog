@@ -1,8 +1,10 @@
 phpmyadmin:
   ports:
   - "${public_port}:80"
+{{- if (.Values.mysql_source)}}
   external_links:
     - ${mysql_source}:mysql
+{{- end}}
   image: 'phpmyadmin/phpmyadmin:latest'
   restart: on-failure
   environment:
