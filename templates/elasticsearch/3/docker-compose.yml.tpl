@@ -2,8 +2,8 @@ version: '2'
 services:
     es-master:
         labels:
-            io.rancher.cluster: ${cluster_name}
-            io.rancher.cluster.group: ${cluster_name}.master
+            cluster.name: ${cluster_name}
+            cluster.group: ${cluster_name}.master
             io.rancher.scheduler.affinity:container_label_soft_ne: io.rancher.stack_service.name=$${stack_name}/$${service_name}
             io.rancher.container.hostname_override: container_name
             io.rancher.sidekicks: es-storage{{- if eq .Values.UPDATE_SYSCTL "true" -}},es-sysctl{{- end}}
@@ -36,8 +36,8 @@ services:
 
     es-data:
         labels:
-            io.rancher.cluster: ${cluster_name}
-            io.rancher.cluster.group: ${cluster_name}.data
+            cluster.name: ${cluster_name}
+            cluster.group: ${cluster_name}.data
             io.rancher.scheduler.affinity:container_label_soft_ne: io.rancher.stack_service.name=$${stack_name}/$${service_name}
             io.rancher.container.hostname_override: container_name
             io.rancher.sidekicks: es-storage{{- if eq .Values.UPDATE_SYSCTL "true" -}},es-sysctl{{- end}}
@@ -71,8 +71,8 @@ services:
 
     es-client:
         labels:
-            io.rancher.cluster: ${cluster_name}
-            io.rancher.cluster.group: ${cluster_name}.client
+            cluster.name: ${cluster_name}
+            cluster.group: ${cluster_name}.client
             io.rancher.scheduler.affinity:container_label_soft_ne: io.rancher.stack_service.name=$${stack_name}/$${service_name}
             io.rancher.container.hostname_override: container_name
             io.rancher.sidekicks: es-storage{{- if eq .Values.UPDATE_SYSCTL "true" -}},es-sysctl{{- end}}
