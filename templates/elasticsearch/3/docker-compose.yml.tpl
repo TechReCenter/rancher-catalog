@@ -2,7 +2,7 @@ version: '2'
 services:
     es-master:
         labels:
-            cluster.id: ${cluster_name}.master.${service_index}
+            cluster.id: ${cluster_name}.master.$${service_index}
             cluster.name: ${cluster_name}
             cluster.group: ${cluster_name}.master
             io.rancher.scheduler.affinity:container_label_soft_ne: io.rancher.stack_service.name=$${stack_name}/$${service_name}
@@ -37,7 +37,7 @@ services:
 
     es-data:
         labels:
-            cluster.id: ${cluster_name}.data.${service_index}
+            cluster.id: ${cluster_name}.data.$${service_index}
             cluster.name: ${cluster_name}
             cluster.group: ${cluster_name}.data
             io.rancher.scheduler.affinity:container_label_soft_ne: io.rancher.stack_service.name=$${stack_name}/$${service_name}
@@ -73,7 +73,7 @@ services:
 
     es-client:
         labels:
-            cluster.id: ${cluster_name}.client.${service_index}
+            cluster.id: ${cluster_name}.client.$${service_index}
             cluster.name: ${cluster_name}
             cluster.group: ${cluster_name}.client
             io.rancher.scheduler.affinity:container_label_soft_ne: io.rancher.stack_service.name=$${stack_name}/$${service_name}
