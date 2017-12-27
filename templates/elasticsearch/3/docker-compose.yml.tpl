@@ -1,13 +1,13 @@
 version: '2'
 services:
-    es-master:
+    master:
         labels:
             cluster.id: $${container_name}
             cluster.name: ${cluster_name}
             cluster.group: ${cluster_name}.master
             io.rancher.scheduler.affinity:container_label_soft_ne: io.rancher.stack_service.name=$${stack_name}/$${service_name}
             io.rancher.container.hostname_override: container_name
-            io.rancher.sidekicks: es-storage{{- if eq .Values.UPDATE_SYSCTL "true" -}},es-sysctl{{- end}}
+            io.rancher.sidekicks: storage{{- if eq .Values.UPDATE_SYSCTL "true" -}},es-sysctl{{- end}}
         image: docker.elastic.co/elasticsearch/elasticsearch:5.5.1
         environment:
             - "cluster.name=${cluster_name}"
@@ -17,7 +17,7 @@ services:
             - "xpack.monitoring.enabled=false"
             - "xpack.monitoring.collection.interval=-1"
             - "ES_JAVA_OPTS=-Xms${master_heap_size} -Xmx${master_heap_size}"
-            - "discovery.zen.ping.unicast.hosts=es-master"
+            - "discovery.zen.ping.unicast.hosts=master"
             - "discovery.zen.minimum_master_nodes=${minimum_master_nodes}"
             - "node.master=true"
             - "node.data=false"
@@ -33,16 +33,16 @@ services:
         cap_add:
             - IPC_LOCK
         volumes_from:
-            - es-storage
+            - storage
 
-    es-data:
+    data:
         labels:
             cluster.id: $${container_name}
             cluster.name: ${cluster_name}
             cluster.group: ${cluster_name}.data
             io.rancher.scheduler.affinity:container_label_soft_ne: io.rancher.stack_service.name=$${stack_name}/$${service_name}
             io.rancher.container.hostname_override: container_name
-            io.rancher.sidekicks: es-storage{{- if eq .Values.UPDATE_SYSCTL "true" -}},es-sysctl{{- end}}
+            io.rancher.sidekicks: storage{{- if eq .Values.UPDATE_SYSCTL "true" -}},es-sysctl{{- end}}
         image: docker.elastic.co/elasticsearch/elasticsearch:5.5.1
         environment:
             - "cluster.name=${cluster_name}"
@@ -51,7 +51,7 @@ services:
             - "xpack.security.enabled=false"
             - "xpack.monitoring.enabled=false"
             - "xpack.monitoring.collection.interval=-1"
-            - "discovery.zen.ping.unicast.hosts=es-master"
+            - "discovery.zen.ping.unicast.hosts=master"
             - "ES_JAVA_OPTS=-Xms${data_heap_size} -Xmx${data_heap_size}"
             - "node.master=false"
             - "node.data=true"
@@ -67,18 +67,18 @@ services:
         cap_add:
             - IPC_LOCK
         volumes_from:
-            - es-storage
+            - storage
         depends_on:
-            - es-master
+            - master
 
-    es-client:
+    client:
         labels:
             cluster.id: $${container_name}
             cluster.name: ${cluster_name}
             cluster.group: ${cluster_name}.client
             io.rancher.scheduler.affinity:container_label_soft_ne: io.rancher.stack_service.name=$${stack_name}/$${service_name}
             io.rancher.container.hostname_override: container_name
-            io.rancher.sidekicks: es-storage{{- if eq .Values.UPDATE_SYSCTL "true" -}},es-sysctl{{- end}}
+            io.rancher.sidekicks: storage{{- if eq .Values.UPDATE_SYSCTL "true" -}},es-sysctl{{- end}}
         image: docker.elastic.co/elasticsearch/elasticsearch:5.5.1
         environment:
             - "cluster.name=${cluster_name}"
@@ -87,7 +87,7 @@ services:
             - "xpack.security.enabled=false"
             - "xpack.monitoring.enabled=false"
             - "xpack.monitoring.collection.interval=-1"
-            - "discovery.zen.ping.unicast.hosts=es-master"
+            - "discovery.zen.ping.unicast.hosts=master"
             - "ES_JAVA_OPTS=-Xms${client_heap_size} -Xmx${client_heap_size}"
             - "node.master=false"
             - "node.data=false"
@@ -103,11 +103,11 @@ services:
         cap_add:
             - IPC_LOCK
         volumes_from:
-            - es-storage
+            - storage
         depends_on:
-            - es-master
+            - master
 
-    es-storage:
+    storage:
         labels:
             io.rancher.container.start_once: true
         network_mode: none
@@ -117,7 +117,7 @@ services:
             - SERVICE_GID=1000
             - SERVICE_VOLUME=/usr/share/elasticsearch/data
         volumes:
-            - es-storage-volume:/usr/share/elasticsearch/data
+            - storage-volume:/usr/share/elasticsearch/data
 
     {{- if eq .Values.UPDATE_SYSCTL "true" }}
     es-sysctl:
@@ -132,6 +132,6 @@ services:
     {{- end}}
 
 volumes:
-  es-storage-volume:
+  storage-volume:
     driver: ${VOLUME_DRIVER}
     per_container: true
