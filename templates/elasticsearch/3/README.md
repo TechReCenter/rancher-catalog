@@ -4,10 +4,9 @@ A scalable Elasticsearch cluster work with Host labels
 
 You can setup cluster on hosts list
 
-* cluster=elastic
-* role=master
-* role=data
-* role=client
+* cluster.id=elastic.master1
+* cluster.group=elastic.master
+* cluster.name=elastic
 
 Disable xpack monitoring with below [config](https://www.elastic.co/guide/en/x-pack/5.2/monitoring-settings.html)
 
