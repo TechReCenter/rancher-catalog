@@ -22,3 +22,4 @@ scrapyd:
 {{- end}}
     tty: true
     stdin_open: true
+    working_dir: /var/lib/scrapyd
