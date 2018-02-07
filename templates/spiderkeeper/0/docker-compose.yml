@@ -1,0 +1,17 @@
+scrapyd:
+  ports:
+  - "${public_port}:5000"
+  image: 'cedu/spiderkeeper:latest'
+  restart: on-failure
+  environment:
+{{- if (.Values.username)}}
+    AUTH_USERNAME: ${username}
+{{- end}}
+{{- if (.Values.password)}}
+    AUTH_PASSWORD: ${password}
+{{- end}}
+{{- if (.Values.servers)}}
+    SERVERS: ${servers}
+{{- end}}
+    tty: true
+    stdin_open: true

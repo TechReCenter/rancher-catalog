@@ -1,0 +1,37 @@
+.catalog:
+  name: "Spiderkeeper"
+  version: "v1"
+  description: "[InfraTeam] Spiderkeeper for scrapy cluster management."
+  questions:
+    - variable: "public_port"
+      label: "Spiderkeeper public port"
+      description: "Spiderkeeper public port (default:5000)"
+      type: "int"
+      default: 5000
+      required: true
+    - variable: "username"
+      description: "Basic auth username"
+      label: "Username"
+      type: "string"
+      required: false
+      default: "admin"
+    - variable: "password"
+      description: "Basic auth password"
+      label: "Password"
+      type: "string"
+      required: false
+      default: "admin"
+    - variable: "servers"
+      description: "Server list --server=http://127.0.0.1:6800 --server=http://127.0.0.2:6800"
+      label: "Servers"
+      type: "string"
+      required: false
+
+spiderkeeper:
+  health_check:
+    port: ${public_port}
+    interval: 60000
+    unhealthy_threshold: 2
+    healthy_threshold: 2
+    response_timeout: 2000
+    request_line: 'GET "/" "HTTP/1.0"'

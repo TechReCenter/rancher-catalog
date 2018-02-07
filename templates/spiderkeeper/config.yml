@@ -1,0 +1,6 @@
+name: spiderkeeper
+description: |
+  [InfraTeam] Spiderkeeper for scrapy cluster management.
+version: v1
+category: Applications
+maintainer: TDN <ngoctd@ai-t.vn>
