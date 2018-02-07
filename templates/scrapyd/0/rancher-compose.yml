@@ -1,0 +1,51 @@
+.catalog:
+  name: "Scrapyd"
+  version: "v1"
+  description: "[InfraTeam] Scrapyd is scrapy deploy application."
+  questions:
+    - variable: "public_port"
+      label: "Scrapyd public port"
+      description: "Scrapyd public port (default:6800)"
+      type: "int"
+      default: 6800
+      required: true
+    - variable: "initial_nodes"
+      type: "int"
+      required: true
+      label: "Initial nodes"
+      description: "Set the initial number of scrapyd nodes"
+      default: 1
+    - variable: "mysql_source"
+      description: "Link to mysql service"
+      label: "MySQL source"
+      type: "service"
+      required: false
+      default: "mysql/mysql-lb"
+    - variable: "redis_source"
+      description: "Link to redis service"
+      label: "Redis source"
+      type: "service"
+      required: false
+    - variable: "elastic_source"
+      description: "Link to elasticsearch service"
+      label: "Elastic source"
+      type: "service"
+      required: false
+      default: "elastic/es-client"
+    - variable: "kafka_source"
+      description: "Link to kafka service"
+      label: "Kafka source"
+      type: "service"
+      required: false
+      default: "kafka/broker"
+
+services:
+  scrapyd:
+    scale: ${initial_nodes}
+    health_check:
+      port: ${public_port}
+      interval: 3000
+      unhealthy_threshold: 2
+      healthy_threshold: 2
+      response_timeout: 2000
+      request_line: 'GET "/" "HTTP/1.0"'

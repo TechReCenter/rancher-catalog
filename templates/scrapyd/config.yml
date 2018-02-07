@@ -1,0 +1,6 @@
+name: scrapyd
+description: |
+  [InfraTeam] Scrapyd for deploy and run scrapy crawler.
+version: v1
+category: Applications
+maintainer: TDN <ngoctd@ai-t.vn>
