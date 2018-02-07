@@ -9,6 +9,11 @@
       type: "int"
       default: 5000
       required: true
+    - variable: "servers"
+      description: "Server list --server=http://127.0.0.1:6800 --server=http://127.0.0.2:6800"
+      label: "Servers"
+      type: "string"
+      required: false
     - variable: "username"
       description: "Basic auth username"
       label: "Username"
@@ -21,11 +26,6 @@
       type: "string"
       required: false
       default: "admin"
-    - variable: "servers"
-      description: "Server list --server=http://127.0.0.1:6800 --server=http://127.0.0.2:6800"
-      label: "Servers"
-      type: "string"
-      required: false
 
 spiderkeeper:
   health_check:
