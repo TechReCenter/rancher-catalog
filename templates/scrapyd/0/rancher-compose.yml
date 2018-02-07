@@ -43,7 +43,7 @@ scrapyd:
   scale: ${initial_nodes}
   health_check:
     port: ${public_port}
-    interval: 3000
+    interval: 10000
     unhealthy_threshold: 2
     healthy_threshold: 2
     response_timeout: 2000
