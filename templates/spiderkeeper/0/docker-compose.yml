@@ -1,4 +1,4 @@
-scrapyd:
+spiderkeeper:
   ports:
   - "${public_port}:5000"
   image: 'cedu/spiderkeeper:latest'
