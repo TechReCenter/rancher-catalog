@@ -1,4 +1,10 @@
 spiderkeeper:
+  labels:
+      io.rancher.stack.name: $${stack_name}
+      {{- if ne .Values.SERVER_HOST_LABEL ""}}
+      io.rancher.scheduler.affinity:host_label: ${SERVER_HOST_LABEL}
+      io.rancher.scheduler.affinity:container_label_ne: io.rancher.stack_service.name=$${stack_name}/$${service_name}
+      {{- end}}
   ports:
   - "${public_port}:5000"
   image: 'cedu/spiderkeeper:latest'

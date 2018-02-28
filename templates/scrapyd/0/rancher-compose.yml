@@ -9,12 +9,22 @@
       type: "int"
       default: 6800
       required: true
+    - variable: "monitor_port"
+      label: "Monitor server"
+      description: "SpiderKeeper server endpoint"
+      type: "string"
+      required: false
     - variable: "initial_nodes"
       type: "int"
       required: true
       label: "Initial nodes"
       description: "Set the initial number of scrapyd nodes"
       default: 1
+    - variable: SERVER_HOST_LABEL
+      label: "Host label for scrapyd server node"
+      description: "Example: scrapyd.server=1"
+      type: string
+      required: false
     - variable: "mysql_source"
       description: "Link to mysql service"
       label: "MySQL source"

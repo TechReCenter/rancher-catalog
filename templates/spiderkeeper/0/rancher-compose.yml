@@ -26,6 +26,11 @@
       type: "string"
       required: false
       default: "admin"
+    - variable: SERVER_HOST_LABEL
+      label: "Host label"
+      description: "Example: spiderkeeper.server=1"
+      type: string
+      required: false
 
 spiderkeeper:
   health_check:
