@@ -5,6 +5,15 @@ scrapyd:
   external_links:
     - ${mysql_source}:mysql
 {{- end}}
+{{- if (.Values.redis_source)}}
+    - ${redis_source}:redis
+{{- end}}
+{{- if (.Values.kafka_source)}}
+    - ${kafka_source}:kafka
+{{- end}}
+{{- if (.Values.elastic_source)}}
+    - ${elastic_source}:elasticsearch
+{{- end}}
   image: 'cedu/scrapyd:latest'
   restart: on-failure
   environment:
