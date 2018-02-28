@@ -31,6 +31,11 @@
         - "no"
       default: "no"
       required: false
+    - variable: SERVER_HOST_LABEL
+      label: "Host label for node"
+      description: "Example: phpmyadmin.server=1"
+      type: string
+      required: false
 phpmyadmin:
   scale: 1
   start_on_create: true
