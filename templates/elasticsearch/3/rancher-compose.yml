@@ -23,7 +23,6 @@ catalog:
           options:
             - false
             - true
-
         - variable: "master_heap_size"
           type: "string"
           required: true
@@ -98,7 +97,26 @@ catalog:
             - rancher-nfs
             - rancher-efs
             - rancher-ebs
-
+        - variable: MASTER_HOST_LABEL
+          label: "Host label for master nodes"
+          description: "Example: elastic.master=true"
+          type: string
+          required: false
+        - variable: CLIENT_HOST_LABEL
+          label: "Host label for client nodes"
+          description: "Example: elastic.client=true"
+          type: string
+          required: false
+        - variable: DATA_HOST_LABEL
+          label: "Host label for data nodes"
+          description: "Example: elastic.data=true"
+          type: string
+          required: false
+        - variable: ENPOINT_HOST_LABEL
+          label: "Host label for proxy nodes"
+          description: "Example: elastic.proxy=true"
+          type: string
+          required: false
 services:
 
   es-master:
