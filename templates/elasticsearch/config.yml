@@ -1,5 +1,5 @@
 name: Elasticsearch Cluster 5.5.1
 description: |
-  Elasticsearch Cluster work with host labels
+  [InfraTeam] Elasticsearch Cluster work with host labels
 version: 5.5.1-rancher1
 category: ELK

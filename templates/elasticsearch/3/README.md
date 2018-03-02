@@ -1,6 +1,6 @@
 # Elasticsearch Cluster
 
-A scalable Elasticsearch cluster work with Host labels
+[InfraTeam] A scalable Elasticsearch cluster work with Host labels
 
 You can setup cluster on hosts list
 
