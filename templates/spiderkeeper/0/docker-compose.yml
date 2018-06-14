@@ -37,6 +37,6 @@ services:
       volumes:
           - storage-volume:/usr/share/spiderkeeper
 volumes:
-  storage:
+  storage-volume:
     driver: local
     per_container: true
