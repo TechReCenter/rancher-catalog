@@ -4,6 +4,17 @@ volumes:
     driver: local
     per_container: true
 services:
+  storage-volume:
+      labels:
+          io.rancher.container.start_once: true
+      network_mode: none
+      image: rawmind/alpine-volume:0.0.2-1
+      environment:
+          - SERVICE_UID=1000
+          - SERVICE_GID=1000
+          - SERVICE_VOLUME=/usr/share/spiderkeeper
+      volumes:
+          - spiderdata:/usr/share/spiderkeeper
   spiderkeeper:
     labels:
         io.rancher.stack.name: $${stack_name}
@@ -29,14 +40,4 @@ services:
       stdin_open: true
     volumes_from:
         - storage-volume
-  storage-volume:
-      labels:
-          io.rancher.container.start_once: true
-      network_mode: none
-      image: rawmind/alpine-volume:0.0.2-1
-      environment:
-          - SERVICE_UID=1000
-          - SERVICE_GID=1000
-          - SERVICE_VOLUME=/usr/share/spiderkeeper
-      volumes:
-          - spiderdata:/usr/share/spiderkeeper
+
