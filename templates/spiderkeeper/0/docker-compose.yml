@@ -1,4 +1,8 @@
 version: '2'
+volumes:
+  spiderdata:
+    driver: local
+    per_container: true
 services:
   spiderkeeper:
     labels:
@@ -24,8 +28,8 @@ services:
       tty: true
       stdin_open: true
     volumes_from:
-        - storage
-  storage:
+        - storage-volume
+  storage-volume:
       labels:
           io.rancher.container.start_once: true
       network_mode: none
@@ -35,8 +39,4 @@ services:
           - SERVICE_GID=1000
           - SERVICE_VOLUME=/usr/share/spiderkeeper
       volumes:
-          - storage-volume:/usr/share/spiderkeeper
-volumes:
-  storage-volume:
-    driver: local
-    per_container: true
+          - spiderdata:/usr/share/spiderkeeper
