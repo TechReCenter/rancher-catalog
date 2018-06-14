@@ -1,23 +1,38 @@
-spiderkeeper:
-  labels:
-      io.rancher.stack.name: $${stack_name}
-      {{- if ne .Values.SERVER_HOST_LABEL ""}}
-      io.rancher.scheduler.affinity:host_label: ${SERVER_HOST_LABEL}
-      {{- end}}
-      io.rancher.scheduler.affinity:container_label_ne: io.rancher.stack_service.name=$${stack_name}/$${service_name}
-  ports:
-  - "${public_port}:5000"
-  image: 'cedu/spiderkeeper:latest'
-  restart: on-failure
-  environment:
-{{- if (.Values.username)}}
-    AUTH_USERNAME: ${username}
-{{- end}}
-{{- if (.Values.password)}}
-    AUTH_PASSWORD: ${password}
-{{- end}}
-{{- if (.Values.servers)}}
-    SERVERS: ${servers}
-{{- end}}
-    tty: true
-    stdin_open: true
+version: '1'
+services:
+  spiderkeeper:
+    labels:
+        io.rancher.stack.name: $${stack_name}
+        {{- if ne .Values.SERVER_HOST_LABEL ""}}
+        io.rancher.scheduler.affinity:host_label: ${SERVER_HOST_LABEL}
+        {{- end}}
+        io.rancher.scheduler.affinity:container_label_ne: io.rancher.stack_service.name=$${stack_name}/$${service_name}
+    ports:
+    - "${public_port}:5000"
+    image: 'cedu/spiderkeeper:latest'
+    restart: on-failure
+    environment:
+  {{- if (.Values.username)}}
+      AUTH_USERNAME: ${username}
+  {{- end}}
+  {{- if (.Values.password)}}
+      AUTH_PASSWORD: ${password}
+  {{- end}}
+  {{- if (.Values.servers)}}
+      SERVERS: ${servers}
+  {{- end}}
+      tty: true
+      stdin_open: true
+    volumes_from:
+        - storage
+  storage:
+      labels:
+          io.rancher.container.start_once: true
+      network_mode: none
+      image: rawmind/alpine-volume:0.0.2-1
+      environment:
+          - SERVICE_UID=1000
+          - SERVICE_GID=1000
+          - SERVICE_VOLUME=/usr/share/spiderkeeper
+      volumes:
+          - storage-volume:/usr/share/spiderkeeper
