@@ -53,6 +53,9 @@ services:
   {{- if (.Values.elastic_source)}}
       ELASTIC_HOST: ${elastic_source}
   {{- end}}
+  {{- if (.Values.master_host)}}
+      SPIDERKEEPER_HOST: ${master_host}
+  {{- end}}
       tty: true
       stdin_open: true
       working_dir: /var/lib/scrapyd

@@ -9,9 +9,9 @@
       type: "int"
       default: 6800
       required: true
-    - variable: "monitor_port"
-      label: "Monitor server"
-      description: "SpiderKeeper server endpoint"
+    - variable: "master_host"
+      label: "Master server"
+      description: "SpiderKeeper server endpoint, example: http://10.127.89.19:5000"
       type: "string"
       required: false
     - variable: "initial_nodes"
