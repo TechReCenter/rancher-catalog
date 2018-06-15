@@ -23,6 +23,8 @@ services:
         {{- end}}
         io.rancher.scheduler.affinity:container_label_ne: io.rancher.stack_service.name=$${stack_name}/$${service_name}
         io.rancher.sidekicks: storage
+    volumes_from:
+      - storage
     ports:
     - "${public_port}:6800"
   {{- if (.Values.mysql_source)}}
@@ -59,5 +61,4 @@ services:
       tty: true
       stdin_open: true
       working_dir: /var/lib/scrapyd
-      volumes_from:
-        - storage
+
