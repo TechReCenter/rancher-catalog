@@ -1,40 +1,60 @@
-scrapyd:
-  labels:
-      io.rancher.stack.name: $${stack_name}
-      {{- if ne .Values.SERVER_HOST_LABEL ""}}
-      io.rancher.scheduler.affinity:host_label: ${SERVER_HOST_LABEL}
-      {{- end}}
-      io.rancher.scheduler.affinity:container_label_ne: io.rancher.stack_service.name=$${stack_name}/$${service_name}
-  ports:
-  - "${public_port}:6800"
-{{- if (.Values.mysql_source)}}
-  external_links:
-    - ${mysql_source}:mysql
-{{- end}}
-{{- if (.Values.redis_source)}}
-    - ${redis_source}:redis
-{{- end}}
-{{- if (.Values.kafka_source)}}
-    - ${kafka_source}:kafka
-{{- end}}
-{{- if (.Values.elastic_source)}}
-    - ${elastic_source}:elasticsearch
-{{- end}}
-  image: 'cedu/scrapyd:latest'
-  restart: on-failure
-  environment:
-{{- if (.Values.mysql_source)}}
-    MYSQL_HOST: ${mysql_source}
-{{- end}}
-{{- if (.Values.redis_source)}}
-    REDIS_HOST: ${redis_source}
-{{- end}}
-{{- if (.Values.kafka_source)}}
-    KAFKA_HOST: ${kafka_source}
-{{- end}}
-{{- if (.Values.elastic_source)}}
-    ELASTIC_HOST: ${elastic_source}
-{{- end}}
-    tty: true
-    stdin_open: true
-    working_dir: /var/lib/scrapyd
+version: '2'
+volumes:
+  scrapyd-volume:
+    driver: local
+    per_container: true
+services:
+  storage:
+      labels:
+          io.rancher.container.start_once: true
+      network_mode: none
+      image: rawmind/alpine-volume:0.0.2-1
+      environment:
+          - SERVICE_UID=1000
+          - SERVICE_GID=1000
+          - SERVICE_VOLUME=/var/lib/scrapyd
+      volumes:
+          - scrapyd-volume:/var/lib/scrapyd
+  scrapyd:
+    labels:
+        io.rancher.stack.name: $${stack_name}
+        {{- if ne .Values.SERVER_HOST_LABEL ""}}
+        io.rancher.scheduler.affinity:host_label: ${SERVER_HOST_LABEL}
+        {{- end}}
+        io.rancher.scheduler.affinity:container_label_ne: io.rancher.stack_service.name=$${stack_name}/$${service_name}
+        io.rancher.sidekicks: storage
+    ports:
+    - "${public_port}:6800"
+  {{- if (.Values.mysql_source)}}
+    external_links:
+      - ${mysql_source}:mysql
+  {{- end}}
+  {{- if (.Values.redis_source)}}
+      - ${redis_source}:redis
+  {{- end}}
+  {{- if (.Values.kafka_source)}}
+      - ${kafka_source}:kafka
+  {{- end}}
+  {{- if (.Values.elastic_source)}}
+      - ${elastic_source}:elasticsearch
+  {{- end}}
+    image: 'cedu/scrapyd:latest'
+    restart: on-failure
+    environment:
+  {{- if (.Values.mysql_source)}}
+      MYSQL_HOST: ${mysql_source}
+  {{- end}}
+  {{- if (.Values.redis_source)}}
+      REDIS_HOST: ${redis_source}
+  {{- end}}
+  {{- if (.Values.kafka_source)}}
+      KAFKA_HOST: ${kafka_source}
+  {{- end}}
+  {{- if (.Values.elastic_source)}}
+      ELASTIC_HOST: ${elastic_source}
+  {{- end}}
+      tty: true
+      stdin_open: true
+      working_dir: /var/lib/scrapyd
+      volumes_from:
+        - storage
